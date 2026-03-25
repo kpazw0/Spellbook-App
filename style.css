@@ -61,32 +61,50 @@ main {
 }
 
 /* --- 4. Sidebar Filters --- */
-#filters {
-    width: 250px;
-    min-width: 250px;
-    padding: 20px;
-    background: #252530;
-    border-right: 2px solid #333;
+/* --- 4. Sidebar Filters --- */
+
+/* 1. This styles the actual SIDEBAR (the parent container) */
+aside { 
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
+    padding: 25px 20px;
+    background: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+
+    /* This gives you your roomy width back */
+    width: 280px;
+    min-width: 280px;
+    height: 100vh; /* Keeps it full height on desktop */
+    box-sizing: border-box;
     overflow-y: auto;
 }
 
-#filters select {
+/* 2. This styles the CHECKBOX GRID specifically */
+#filter-levels {
+    display: grid;
+    /* Two equal columns */
+    grid-template-columns: 1fr 1fr; 
+    /* 5 rows to ensure 0-4 stay on the left */
+    grid-template-rows: repeat(5, auto); 
+    /* The magic trick: fill DOWN the column first, then jump to the next */
+    grid-auto-flow: column; 
+    
+    gap: 12px 10px;
+    margin-top: 10px;
     width: 100%;
-    padding: 8px;
-    background: #1e1e24;
-    color: white;
-    border: 1px solid #555;
-    border-radius: 4px;
 }
 
-.checkbox-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    font-size: 0.9em;
+#filter-levels label {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+#filter-levels input {
+    margin-right: 8px;
 }
 
 /* --- 5. Content Area & Card Grid --- */
@@ -198,6 +216,7 @@ main {
 
     #filters {
         width: 100%;
+        padding: 20px;
         max-height: 250px; /* Let the filters scroll inside if they get long */
         overflow-y: auto;
         border-right: none;
@@ -248,4 +267,21 @@ main {
     .spell-card h3 { border-bottom-color: #999; }
     .spell-stats { color: #333; }
     .spell-desc { overflow: hidden; } 
+}
+
+/* This targets the description area on both the front AND back of the cards */
+.spell-card .spell-desc {
+    max-height: 150px; /* Limits the height so it doesn't break the card */
+    overflow-y: auto;  /* Adds the scrollbar only when the text is too long */
+    padding-right: 5px;
+    scrollbar-width: thin; /* Makes the scrollbar look nicer in Firefox */
+}
+
+/* Makes the scrollbar look cleaner in Chrome/Safari (mobile) */
+.spell-desc::-webkit-scrollbar {
+    width: 4px;
+}
+.spell-desc::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
 }

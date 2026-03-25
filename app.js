@@ -88,22 +88,38 @@ function populateFilters() {
 }
 
 // 4. Render Library 
+// 4. Render Library
 function renderLibrary() {
-    libraryContainer.innerHTML = ''; 
+    libraryContainer.innerHTML = '';
 
     const selectedClass = classFilter.value;
     const selectedSchool = schoolFilter.value;
     const selectedLevels = Array.from(document.querySelectorAll('.level-cb:checked')).map(cb => cb.value);
 
-    const filteredSpells = spells.filter(spell => {
+    // 1. Filter the spells based on your sidebar choices
+    let filteredSpells = spells.filter(spell => {
         const matchClass = selectedClass === "All" || spell.dndClass.includes(selectedClass);
         const matchSchool = selectedSchool === "All" || spell.school === selectedSchool;
-        const matchLevel = selectedLevels.includes(spell.level.toString());
-        const notInSpellbook = !mySpellbook.some(s => s.id === spell.id);
         
+        // This keeps your "Nothing selected = Show Everything" logic
+        const matchLevel = selectedLevels.length === 0 || selectedLevels.includes(spell.level.toString());
+        
+        const notInSpellbook = !mySpellbook.some(s => s.id === spell.id);
+
         return matchClass && matchSchool && matchLevel && notInSpellbook;
     });
 
+    // 2. NEW: The Double-Sort Engine (Level first, then Alphabetical)
+    filteredSpells.sort((a, b) => {
+        // Sort by Level (Numeric)
+        if (parseInt(a.level) !== parseInt(b.level)) {
+            return parseInt(a.level) - parseInt(b.level);
+        }
+        // If levels are the same, sort by Name (A-Z)
+        return a.name.localeCompare(b.name);
+    });
+
+    // 3. Draw the sorted cards to the screen
     filteredSpells.forEach(spell => {
         const card = createCardHTML(spell, "add");
         libraryContainer.appendChild(card);
@@ -145,7 +161,7 @@ function animateToSpellbook(spell, cardElement) {
 
 // 6. Render Spellbook
 function renderSpellbook() {
-    // Clear the container (using your specific variable name)
+    // Clear the container
     spellbookContainer.innerHTML = '';
 
     if (mySpellbook.length === 0) {
@@ -157,8 +173,15 @@ function renderSpellbook() {
     const filterSelect = document.getElementById('spellbook-level-filter');
     const selectedLevel = filterSelect ? filterSelect.value : 'all';
 
-    // 2. Sort the spells numerically by level
-    const sortedSpellbook = [...mySpellbook].sort((a, b) => parseInt(a.level) - parseInt(b.level));
+    // 2. THE UPGRADE: Sort by Level FIRST, then by Name (A-Z)
+    const sortedSpellbook = [...mySpellbook].sort((a, b) => {
+        // If levels are different, sort by level number
+        if (parseInt(a.level) !== parseInt(b.level)) {
+            return parseInt(a.level) - parseInt(b.level);
+        }
+        // If levels are the same, sort alphabetically by name
+        return a.name.localeCompare(b.name);
+    });
 
     // 3. Group the spells by level
     const groupedSpells = {};
@@ -171,7 +194,7 @@ function renderSpellbook() {
     // 4. Create sections for each level
     for (const [level, spells] of Object.entries(groupedSpells)) {
         
-        // Filter: skip if the user wants to see only one specific level
+        // Filter logic
         if (selectedLevel !== 'all' && selectedLevel !== level) continue;
 
         const levelSection = document.createElement('div');
@@ -191,9 +214,9 @@ function renderSpellbook() {
         
         levelSection.appendChild(header);
 
-        // Create a grid for the cards in this specific level
+        // Create a grid for the cards
         const levelGrid = document.createElement('div');
-        levelGrid.className = 'card-grid'; // This keeps your existing card layout!
+        levelGrid.className = 'card-grid'; 
 
         spells.forEach(spell => {
             const card = createCardHTML(spell, 'remove');
