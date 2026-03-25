@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Interactive Spellbook</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="no-print">
+        <h1>Arcane Compendium</h1>
+        <nav class="main-nav">
+            <button id="nav-browse" class="nav-btn active">Browse Spells</button>
+            <button id="nav-spellbook" class="nav-btn">My Selected Spells</button>
+            <button class="print-btn" onclick="window.print()">🖨️ Print Spellbook</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="view-browse" class="view-section active no-print">
+            <aside id="filters">
+                <h3>Filters</h3>
+                
+                <label>Class</label>
+                <select id="filter-class">
+                    <option value="All">All Classes</option>
+                    </select>
+
+                <label>School of Magic</label>
+                <select id="filter-school">
+                    <option value="All">All Schools</option>
+                    </select>
+
+                <label>Spell Level</label>
+                <div id="filter-levels" class="checkbox-grid">
+                    </div>
+            </aside>
+
+            <div class="content-area">
+                <div id="available-spells-container" class="card-grid"></div>
+            </div>
+        </section>
+
+        <section id="view-spellbook" class="view-section">
+            <h2 class="no-print" style="margin-left: 20px;">My Spellbook</h2>
+            <div id="selected-spells-container" class="card-grid"></div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+/* --- 1. Base Variables & Setup --- */
+:root {
+    --bg-color: #1e1e24;
+    --text-color: #f5f5f5;
+    
+    /* Add your magic school colors here! */
+    --evocation-color: #d90429; 
+    --abjuration-color: #0077b6; 
+    --necromancy-color: #2b9348; 
+    --illusion-color: #7209b7; 
+}
+
+body {
+    font-family: 'Georgia', serif; 
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Keeps the app filling the screen without scrolling the header */
+}
+
+/* --- 2. Navigation --- */
+.main-nav {
+    display: flex;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #1a1a24;
+    border-bottom: 2px solid #333;
+}
+
+.nav-btn, .print-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    background: #2b2b36;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.nav-btn:hover, .print-btn:hover { background: #3b3b4a; }
+.nav-btn.active { background: #4a4e69; border-color: #9a8c98; }
+.print-btn { margin-left: auto; /* Pushes the print button to the far right */ background: #2a9d8f; }
+
+/* --- 3. Layout Structure --- */
+main {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; 
+}
+
+.view-section {
+    display: none; /* Hide all views by default */
+    width: 100%;
+    height: 100%;
+}
+
+.view-section.active {
+    display: flex; /* Only show the tab that is currently clicked */
+}
+
+/* --- 4. Sidebar Filters --- */
+#filters {
+    width: 250px;
+    min-width: 250px;
+    padding: 20px;
+    background: #252530;
+    border-right: 2px solid #333;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+#filters select {
+    width: 100%;
+    padding: 8px;
+    background: #1e1e24;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+}
+
+.checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    font-size: 0.9em;
+}
+
+/* --- 5. Content Area & Card Grid --- */
+.content-area {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto; /* Adds a scrollbar just for the spell list */
+}
+
+.card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+#view-spellbook {
+    flex-direction: column;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* --- 6. Playing Card Design (3D Flip Upgrade) --- */
+.spell-card {
+    background: transparent;
+    perspective: 1000px; /* Gives the 3D flip some depth */
+    width: 260px;
+    height: 364px; 
+    margin-bottom: 15px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d; /* Required for the flip */
+    cursor: pointer;
+}
+
+/* When the JavaScript adds the 'is-flipped' class, it rotates 180deg */
+.spell-card.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden; /* Hides the backside of the panel */
+    background: #2b2b36;
+    border: 2px solid #444;
+    border-radius: 12px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Dynamic Borders applied to the actual faces now */
+.spell-card[data-school="Evocation"] .card-front, .spell-card[data-school="Evocation"] .card-back { border-color: var(--evocation-color); }
+.spell-card[data-school="Abjuration"] .card-front, .spell-card[data-school="Abjuration"] .card-back { border-color: var(--abjuration-color); }
+.spell-card[data-school="Necromancy"] .card-front, .spell-card[data-school="Necromancy"] .card-back { border-color: var(--necromancy-color); }
+.spell-card[data-school="Illusion"] .card-front, .spell-card[data-school="Illusion"] .card-back { border-color: var(--illusion-color); }
+
+.card-back {
+    transform: rotateY(180deg); /* Starts flipped around */
+}
+
+/* Inside the Card */
+.spell-card h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid #555; padding-bottom: 5px; }
+.spell-stats { font-size: 0.85em; color: #bbb; margin-bottom: 10px; }
+.spell-desc { font-size: 0.9em; overflow-y: auto; flex-grow: 1; padding-right: 5px; }
+
+/* The new Add/Remove Button */
+.action-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background: #4a4e69;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+    z-index: 10;
+}
+.action-btn:hover { background: #9a8c98; }
+
+/* Custom Scrollbar */
+.spell-desc::-webkit-scrollbar { width: 4px; }
+.spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
+
+/* --- 7. Mobile Responsiveness --- */
+@media (max-width: 768px) {
+    body { height: auto; }
+    main { overflow: visible; }
+    
+    .view-section.active {
+        flex-direction: column; /* Stacks the sidebar on top of the cards */
+    }
+
+    #filters {
+        width: auto;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 2px solid #333;
+        max-height: 250px; /* Keeps the filters from taking up the whole screen */
+    }
+
+    .content-area, #view-spellbook {
+        overflow-y: visible;
+        padding: 10px;
+    }
+
+    .card-grid {
+        justify-content: center; /* Centers the cards on the phone screen */
+    }
+    
+    .main-nav {
+        flex-wrap: wrap; /* Lets buttons wrap to the next line if needed */
+        justify-content: center;
+    }
+}
+
+/* --- 8. Print Settings (Foldable Cards) --- */
+@media print {
+    .no-print { display: none !important; }
+
+    body { background-color: white; color: black; display: block; }
+    #view-spellbook { display: block; padding: 0; }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .spell-card {
+        perspective: none; /* Disable 3D for printing */
+        width: 5in; 
+        height: 3.5in; 
+        page-break-inside: avoid; 
+        margin: 0;
+    }
+
+    .card-inner {
+        transform: none !important; /* Forces it to un-flip */
+        display: flex; 
+        flex-direction: row; /* Put front and back side-by-side */
+    }
+
+    .card-front, .card-back {
+        position: relative;
+        transform: none !important;
+        width: 2.5in;
+        height: 3.5in;
+        border: 2px solid #999;
+        border-radius: 0;
+        background: white;
+        color: black;
+    }
+
+    .card-front { border-right: 2px dashed #999; } /* The fold line */
+    .spell-card h3 { border-bottom-color: #999; }
+    .spell-stats { color: #333; }
+    .spell-desc { overflow: hidden; } 
+}
