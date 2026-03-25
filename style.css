@@ -185,33 +185,23 @@ main {
 
 /* --- 7. Mobile Responsiveness --- */
 @media (max-width: 768px) {
-    body { height: auto; }
-    main { overflow: visible; }
+    /* Release the height so the page can scroll */
+    body, main, .content-area, #view-spellbook { 
+        height: auto !important; 
+        min-height: 100vh;
+        overflow-y: visible !important; 
+    }
     
     .view-section.active {
-        flex-direction: column; /* Stacks the sidebar on top of the cards */
+        flex-direction: column;
     }
 
     #filters {
-        width: auto;
-        min-width: unset;
+        width: 100%;
+        max-height: 250px; /* Let the filters scroll inside if they get long */
+        overflow-y: auto;
         border-right: none;
-        border-bottom: 2px solid #333;
-        max-height: 250px; /* Keeps the filters from taking up the whole screen */
-    }
-
-    .content-area, #view-spellbook {
-        overflow-y: visible;
-        padding: 10px;
-    }
-
-    .card-grid {
-        justify-content: center; /* Centers the cards on the phone screen */
-    }
-    
-    .main-nav {
-        flex-wrap: wrap; /* Lets buttons wrap to the next line if needed */
-        justify-content: center;
+        border-bottom: 1px solid #444;
     }
 }
 

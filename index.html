@@ -41,10 +41,30 @@
             </div>
         </section>
 
-        <section id="view-spellbook" class="view-section">
-            <h2 class="no-print" style="margin-left: 20px;">My Spellbook</h2>
-            <div id="selected-spells-container" class="card-grid"></div>
-        </section>
+       <section id="view-spellbook" class="view-section">
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; flex-wrap: wrap; border-bottom: 1px solid #444; margin-bottom: 20px;">
+        <h2 class="no-print" style="margin: 0;">My Spellbook</h2>
+        
+        <div class="no-print" style="display: flex; align-items: center; gap: 10px;">
+            <label for="spellbook-level-filter">Show:</label>
+            <select id="spellbook-level-filter" onchange="renderSpellbook()" style="padding: 8px; background: #222; color: white; border: 1px solid #444; border-radius: 4px;">
+                <option value="all">All Levels</option>
+                <option value="0">Cantrips</option>
+                <option value="1">Level 1</option>
+                <option value="2">Level 2</option>
+                <option value="3">Level 3</option>
+                <option value="4">Level 4</option>
+                <option value="5">Level 5</option>
+                <option value="6">Level 6</option>
+                <option value="7">Level 7</option>
+                <option value="8">Level 8</option>
+                <option value="9">Level 9</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="selected-spells-container"></div>
+</section>
     </main>
 
     <script src="app.js"></script>

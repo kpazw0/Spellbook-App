@@ -78,7 +78,7 @@ function populateFilters() {
     levelsContainer.innerHTML = '';
     uniqueLevels.forEach(level => {
         const label = document.createElement('label');
-        label.innerHTML = `<input type="checkbox" value="${level}" class="level-cb" checked> Lvl ${level}`;
+        label.innerHTML = `<input type="checkbox" value="${level}" class="level-cb"> Lvl ${level}`;
         levelsContainer.appendChild(label);
     });
 
@@ -145,11 +145,64 @@ function animateToSpellbook(spell, cardElement) {
 
 // 6. Render Spellbook
 function renderSpellbook() {
-    spellbookContainer.innerHTML = ''; 
-    mySpellbook.forEach(spell => {
-        const card = createCardHTML(spell, "remove");
-        spellbookContainer.appendChild(card);
+    // Clear the container (using your specific variable name)
+    spellbookContainer.innerHTML = '';
+
+    if (mySpellbook.length === 0) {
+        spellbookContainer.innerHTML = '<p style="padding: 20px; color: #aaa;">Your spellbook is empty! Add some spells from the library.</p>';
+        return;
+    }
+
+    // 1. Get the filter value
+    const filterSelect = document.getElementById('spellbook-level-filter');
+    const selectedLevel = filterSelect ? filterSelect.value : 'all';
+
+    // 2. Sort the spells numerically by level
+    const sortedSpellbook = [...mySpellbook].sort((a, b) => parseInt(a.level) - parseInt(b.level));
+
+    // 3. Group the spells by level
+    const groupedSpells = {};
+    sortedSpellbook.forEach(spell => {
+        const lvl = spell.level.toString();
+        if (!groupedSpells[lvl]) groupedSpells[lvl] = [];
+        groupedSpells[lvl].push(spell);
     });
+
+    // 4. Create sections for each level
+    for (const [level, spells] of Object.entries(groupedSpells)) {
+        
+        // Filter: skip if the user wants to see only one specific level
+        if (selectedLevel !== 'all' && selectedLevel !== level) continue;
+
+        const levelSection = document.createElement('div');
+        levelSection.style.marginBottom = '40px';
+
+        // Create the Header (e.g., "Cantrips" or "Level 1")
+        const headerName = (level === '0') ? 'Cantrips' : `Level ${level}`;
+        const header = document.createElement('h3');
+        header.innerText = headerName;
+        header.style.cssText = `
+            border-bottom: 2px solid #555; 
+            padding: 10px 20px; 
+            color: #f5f5f5; 
+            background: rgba(255, 255, 255, 0.05); 
+            margin-bottom: 20px;
+        `;
+        
+        levelSection.appendChild(header);
+
+        // Create a grid for the cards in this specific level
+        const levelGrid = document.createElement('div');
+        levelGrid.className = 'card-grid'; // This keeps your existing card layout!
+
+        spells.forEach(spell => {
+            const card = createCardHTML(spell, 'remove');
+            levelGrid.appendChild(card);
+        });
+
+        levelSection.appendChild(levelGrid);
+        spellbookContainer.appendChild(levelSection);
+    }
 }
 
 // 7. Universal Card Generator (3D Flip, Buttons, & Foldable Print)
