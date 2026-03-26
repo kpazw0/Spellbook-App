@@ -225,7 +225,7 @@ main {
     /* 2. THE STICKY HEADER: Now with a solid background */
     aside#filters, aside {
         position: sticky !important;
-        top: 0;
+        top: 45px;
         z-index: 9999;
         width: 100% !important;
         min-width: 100% !important;
@@ -236,6 +236,13 @@ main {
         padding: 12px 15px !important;
         border-bottom: 2px solid #444 !important;
         box-sizing: border-box !important;
+
+        transition: transform 0.3s ease-in-out;
+    }
+
+    aside#filters.collapsed {
+        transform: translateY(-100%);
+        pointer-events: none;
     }
 
     aside#filters h2 { display: none !important; }

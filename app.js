@@ -321,6 +321,28 @@ function removeFromSpellbook(spellId) {
     renderLibrary();
 }
 
+// --- Mobile Filter Scroll Logic ---
+let lastScrollY = window.scrollY;
+const filterBar = document.getElementById('filters');
+
+window.addEventListener('scroll', () => {
+    // Only run this on mobile widths
+    if (window.innerWidth <= 768) {
+        const currentScrollY = window.scrollY;
+
+        // currentScrollY > 100 ensures it doesn't hide at the very top of the page
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling Down - Add the collapse class
+            filterBar.classList.add('collapsed');
+        } else {
+            // Scrolling Up - Remove it
+            filterBar.classList.remove('collapsed');
+        }
+        
+        lastScrollY = currentScrollY;
+    }
+});
+
 // Start
 loadSpellsFromSheet();
 renderSpellbook();
