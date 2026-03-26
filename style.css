@@ -108,46 +108,57 @@ aside {
 }
 
 /* --- 5. Content Area & Card Grid --- */
-.content-area {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto; /* Adds a scrollbar just for the spell list */
+main {
+    display: flex !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    margin: 0 !important;
 }
 
-.card-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-start;
-    align-content: flex-start;
+.content-area {
+    flex-grow: 1 !important; /* Forces it to fill the gap next to the sidebar */
+    width: auto !important;
+    padding: 20px;
+    overflow-y: auto;
 }
 
 #view-spellbook {
     flex-direction: column;
     padding: 20px;
     overflow-y: auto;
+    width: 100%;
 }
 
-/* --- 6. Playing Card Design (3D Flip Upgrade) --- */
+.card-grid {
+    display: grid !important;
+    /* This 180px minimum is the key to forcing 4+ columns */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)) !important;
+    gap: 20px !important; 
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+/* --- 6. Playing Card Design --- */
 .spell-card {
     background: transparent;
-    perspective: 1000px; /* Gives the 3D flip some depth */
-    width: 260px;
-    height: 364px; 
-    margin-bottom: 15px;
+    perspective: 1000px;
+    width: 100% !important; 
+    max-width: 250px !important; /* Prevents cards from getting too fat */
+    height: 380px; 
+    margin: 0 auto !important; 
 }
 
+/* --- KEEPING ALL YOUR "BITS" BELOW --- */
 .card-inner {
     position: relative;
     width: 100%;
     height: 100%;
     text-align: left;
     transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
-    transform-style: preserve-3d; /* Required for the flip */
+    transform-style: preserve-3d;
     cursor: pointer;
 }
 
-/* When the JavaScript adds the 'is-flipped' class, it rotates 180deg */
 .spell-card.is-flipped .card-inner {
     transform: rotateY(180deg);
 }
@@ -157,7 +168,7 @@ aside {
     width: 100%;
     height: 100%;
     -webkit-backface-visibility: hidden;
-    backface-visibility: hidden; /* Hides the backside of the panel */
+    backface-visibility: hidden;
     background: #2b2b36;
     border: 2px solid #444;
     border-radius: 12px;
@@ -167,22 +178,20 @@ aside {
     flex-direction: column;
 }
 
-/* Dynamic Borders applied to the actual faces now */
+/* Dynamic Borders */
 .spell-card[data-school="Evocation"] .card-front, .spell-card[data-school="Evocation"] .card-back { border-color: var(--evocation-color); }
 .spell-card[data-school="Abjuration"] .card-front, .spell-card[data-school="Abjuration"] .card-back { border-color: var(--abjuration-color); }
 .spell-card[data-school="Necromancy"] .card-front, .spell-card[data-school="Necromancy"] .card-back { border-color: var(--necromancy-color); }
 .spell-card[data-school="Illusion"] .card-front, .spell-card[data-school="Illusion"] .card-back { border-color: var(--illusion-color); }
 
 .card-back {
-    transform: rotateY(180deg); /* Starts flipped around */
+    transform: rotateY(180deg);
 }
 
-/* Inside the Card */
 .spell-card h3 { margin-top: 0; font-size: 1.1em; border-bottom: 1px solid #555; padding-bottom: 5px; }
 .spell-stats { font-size: 0.85em; color: #bbb; margin-bottom: 10px; }
 .spell-desc { font-size: 0.9em; overflow-y: auto; flex-grow: 1; padding-right: 5px; }
 
-/* The new Add/Remove Button */
 .action-btn {
     margin-top: 10px;
     padding: 10px;
@@ -197,12 +206,10 @@ aside {
 }
 .action-btn:hover { background: #9a8c98; }
 
-/* Custom Scrollbar */
 .spell-desc::-webkit-scrollbar { width: 4px; }
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- THE ULTIMATE MOBILE VIEW: ALL TABS --- */
 @media (max-width: 768px) {
     /* 1. Only show the ACTIVE section and force it to be a column */
     .view-section.active {
@@ -217,18 +224,24 @@ aside {
         display: none !important;
     }
 
-    /* 3. Ensure the main container doesn't try to row-wrap */
+    /* 3. Stack the main layout */
     main {
         display: block !important; 
         width: 100% !important;
     }
     
-    /* ... (The rest of your aside#filters and card-grid CSS stays the same) */
-}
+    /* 4. Filter Layout (Dropdowns side-by-side, Levels 5-across) */
+    aside#filters {
+        position: sticky !important;
+        top: 0;
+        z-index: 9999;
+        width: 100% !important;
+        background: #1a1a24 !important;
+        padding: 10px !important;
+    }
 
     aside#filters h2 { display: none !important; }
 
-    /* 4. Filter Layout (Dropdowns side-by-side, Levels 5-across) */
     .filter-group {
         display: inline-block !important;
         width: 48% !important;
@@ -264,12 +277,18 @@ aside {
         box-sizing: border-box !important;
     }
 
+    /* ONLY on mobile, we force 2 columns */
     .card-grid {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
         gap: 10px !important;
         width: 100% !important;
     }
+
+    .spell-card {
+        max-width: none !important; /* Allow cards to use their half of the screen */
+    }
+}
 
 /* --- 8. Print Settings (Foldable Cards) --- */
 @media print {
