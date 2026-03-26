@@ -211,54 +211,63 @@ main {
 
 /* --- 7. Mobile Responsiveness --- */
 @media (max-width: 768px) {
-    /* 1. Only show the ACTIVE section and force it to be a column */
-    .view-section.active {
-        display: flex !important;
-        flex-direction: column !important; 
-        width: 100% !important;
+    /* 1. Reset containers to stack vertically */
+    body, main {
         height: auto !important;
+        display: block !important;
     }
 
-    /* 2. Strictly hide any section that is NOT active */
-    .view-section:not(.active) {
-        display: none !important;
-    }
-
-    /* 3. Stack the main layout */
-    main {
-        display: block !important; 
-        width: 100% !important;
-    }
-    
-    /* 4. Filter Layout (Dropdowns side-by-side, Levels 5-across) */
-    aside#filters {
+    /* 2. The Navigation Bar (Frozen at the very top) */
+    .main-nav {
         position: sticky !important;
         top: 0;
-        z-index: 9999;
+        z-index: 10001; /* Stays above the filters */
         width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    /* 3. The Filter Bar (Frozen right under the Nav) */
+    aside#filters, aside {
+        position: sticky !important;
+        top: 45px; /* Adjust this to match your Nav bar's height */
+        z-index: 10000;
+        width: 100% !important;
+        min-width: 100% !important;
+        
+        /* THE FIX: Remove the 100vh height so spells show up immediately */
+        height: auto !important; 
         background: #1a1a24 !important;
-        padding: 10px !important;
+        
+        padding: 10px 15px !important;
+        border-right: none !important;
+        border-bottom: 2px solid #444 !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
     }
 
     aside#filters h2 { display: none !important; }
 
+    /* 4. Compact Dashboard Layout */
     .filter-group {
         display: inline-block !important;
         width: 48% !important;
         margin-right: 1% !important;
+        vertical-align: top;
     }
 
     #filters select {
         width: 100% !important;
         font-size: 0.8rem !important;
         padding: 6px !important;
+        margin-bottom: 5px !important;
     }
 
     #filter-levels {
         display: grid !important;
         grid-template-columns: repeat(5, 1fr) !important;
         gap: 4px !important;
-        margin-top: 8px !important;
+        margin-top: 5px !important;
+        width: 100% !important;
     }
 
     #filter-levels label {
@@ -266,18 +275,23 @@ main {
         font-size: 0.6rem !important;
         background: rgba(255, 255, 255, 0.05);
         padding: 5px 0 !important;
-        text-align: center;
         border-radius: 4px;
+        text-align: center;
     }
 
-    /* 5. The Content Areas (Spells and Spellbook) */
+    /* 5. The Spells (2 columns back on mobile) */
+    .view-section.active {
+        display: block !important; 
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
     .content-area, #spellbook-container {
         width: 100% !important;
-        padding: 15px 5px !important;
-        box-sizing: border-box !important;
+        padding: 10px 5px !important;
+        display: block !important;
     }
 
-    /* ONLY on mobile, we force 2 columns */
     .card-grid {
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
@@ -286,7 +300,9 @@ main {
     }
 
     .spell-card {
-        max-width: none !important; /* Allow cards to use their half of the screen */
+        max-width: none !important;
+        width: 100% !important;
+        margin: 0 !important;
     }
 }
 
