@@ -202,68 +202,75 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- Final Polish Mobile View --- */
+/* --- Mobile Layout: 2-Column Force & Compact Filters --- */
 @media (max-width: 768px) {
-    /* 1. Stack everything and let the page height be natural */
+    /* 1. Prevent the whole page from shaking side-to-side */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+
     main {
         flex-direction: column !important;
-        height: auto !important;
-        overflow: visible !important;
+        width: 100% !important;
+        overflow-x: hidden;
     }
 
-    /* 2. Fix the "Scroll Trap" - Remove max-heights */
-    aside, #filters {
+    /* 2. Shrink the Dropdowns (Class & School) */
+    #filters {
         width: 100% !important;
-        min-width: 100% !important;
-        height: auto !important; /* Forces it to expand to show all content */
-        max-height: none !important; 
-        overflow: visible !important; 
-        border-right: none;
-        border-bottom: 2px solid var(--border-color);
-        padding: 15px;
+        padding: 15px !important;
         box-sizing: border-box;
     }
 
-    /* 3. Compact 3-Column Level Grid (so it doesn't take up the whole screen) */
+    /* Put Class and School side-by-side to save height */
+    #filters select {
+        width: 48% !important; /* Half width */
+        display: inline-block;
+        margin-bottom: 10px;
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+
+    /* 3. Level Checkbox Grid (4 columns) */
     #filter-levels {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr) !important; /* 4 small columns */
-        grid-template-rows: auto !important;
-        grid-auto-flow: row !important;
-        gap: 8px;
-        margin: 10px 0;
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 6px;
+        width: 100%;
     }
 
-    #filter-levels label {
-        font-size: 0.75rem; /* Smaller text to fit the grid */
-        background: rgba(255, 255, 255, 0.05);
-        padding: 6px 2px;
-        border-radius: 4px;
-        justify-content: center;
+    /* 4. THE FIX: The Grid and Card Width */
+    .content-area {
+        width: 100% !important;
+        padding: 10px !important;
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
 
-    /* 4. THE FIX: Force 2 cards per row */
     .card-grid {
         display: grid !important;
-        /* Force exactly 2 columns regardless of screen size */
-        grid-template-columns: 1fr 1fr !important; 
-        gap: 8px !important;
-        padding: 10px !important;
+        /* Use minmax(0, 1fr) to prevent cards from expanding the grid */
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px !important;
         width: 100% !important;
-        box-sizing: border-box;
+        margin: 0 auto !important;
     }
 
-    /* Ensure cards don't have a fixed width that breaks the 2-column grid */
     .spell-card {
-        width: 100% !important;
-        min-width: 0 !important;
+        width: 100% !important; /* Force card to stay inside its grid cell */
+        max-width: 100% !important;
+        min-width: 0 !important; /* Crucial: allows card to shrink */
         margin: 0 !important;
+        /* Perspective can sometimes cause overflow, let's keep it safe */
+        perspective: 1000px; 
     }
 
-    /* Make the card text slightly smaller so it fits the narrow columns */
-    .spell-card h3 {
-        font-size: 0.9rem;
-    }
+    /* Shrink text and buttons for the 2-column view */
+    .spell-card h3 { font-size: 0.85rem; }
+    .spell-card .stats { font-size: 0.7rem; }
+    .add-btn, .remove-btn { padding: 8px; font-size: 0.8rem; }
 }
 
 /* --- 8. Print Settings (Foldable Cards) --- */
