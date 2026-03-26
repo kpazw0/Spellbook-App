@@ -5,7 +5,7 @@
     <title>Interactive Spellbook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=2.0">.
+    <link rel="stylesheet" href="style.css?v=3.0">.
 </head>
 <body>
     <header class="no-print">
@@ -20,22 +20,20 @@
     <main>
         <section id="view-browse" class="view-section active no-print">
             <aside id="filters">
-                <h3>Filters</h3>
-                
-                <label>Class</label>
-                <select id="filter-class">
-                    <option value="All">All Classes</option>
-                    </select>
-                <br>
+                <h2>Filters</h2>
 
-                <label>School of Magic</label>
-                <select id="filter-school">
-                    <option value="All">All Schools</option>
-                    </select>
-                <br>
+                <div class="filter-group">
+                    <label>Class</label>
+                    <select id="filter-class">...</select>
+                </div>
+
+                <div class="filter-group">
+                    <label>School</label>
+                    <select id="filter-school">...</select>
+                </div>
 
                 <label>Spell Level</label>
-                <div id="filter-levels" class="checkbox-grid">
+                <div id="filter-levels">
                     </div>
             </aside>
 
