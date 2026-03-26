@@ -225,7 +225,7 @@ main {
     /* 2. THE STICKY HEADER: Now with a solid background */
     aside#filters, aside {
         position: sticky !important;
-        top: 45px;
+        top: 0;
         z-index: 9999;
         width: 100% !important;
         min-width: 100% !important;
