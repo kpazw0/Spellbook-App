@@ -202,55 +202,67 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
+/* --- Final Polish Mobile View --- */
 @media (max-width: 768px) {
-    /* Stack sidebar on top of the list */
+    /* 1. Stack everything and let the page height be natural */
     main {
         flex-direction: column !important;
         height: auto !important;
+        overflow: visible !important;
     }
 
-    /* Force the sidebar to show up at the top and be full width */
-    #filters { 
+    /* 2. Fix the "Scroll Trap" - Remove max-heights */
+    aside, #filters {
         width: 100% !important;
         min-width: 100% !important;
-        height: auto !important;
+        height: auto !important; /* Forces it to expand to show all content */
+        max-height: none !important; 
+        overflow: visible !important; 
         border-right: none;
         border-bottom: 2px solid var(--border-color);
         padding: 15px;
-        display: block !important; /* Ensures it doesn't stay hidden */
-    }
-
-    /* THE FIX: 2 cards per line */
-    .card-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr !important; /* Force two equal columns */
-        gap: 10px;
-        padding: 10px;
-        width: 100%;
         box-sizing: border-box;
     }
 
-    /* Shrink the cards slightly so they fit side-by-side comfortably */
+    /* 3. Compact 3-Column Level Grid (so it doesn't take up the whole screen) */
+    #filter-levels {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr) !important; /* 4 small columns */
+        grid-template-rows: auto !important;
+        grid-auto-flow: row !important;
+        gap: 8px;
+        margin: 10px 0;
+    }
+
+    #filter-levels label {
+        font-size: 0.75rem; /* Smaller text to fit the grid */
+        background: rgba(255, 255, 255, 0.05);
+        padding: 6px 2px;
+        border-radius: 4px;
+        justify-content: center;
+    }
+
+    /* 4. THE FIX: Force 2 cards per row */
+    .card-grid {
+        display: grid !important;
+        /* Force exactly 2 columns regardless of screen size */
+        grid-template-columns: 1fr 1fr !important; 
+        gap: 8px !important;
+        padding: 10px !important;
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    /* Ensure cards don't have a fixed width that breaks the 2-column grid */
     .spell-card {
         width: 100% !important;
         min-width: 0 !important;
         margin: 0 !important;
-        font-size: 0.8rem; /* Slightly smaller text for better fit */
     }
 
-    /* Make the checkboxes easier to hit with a thumb */
-    #filter-levels {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr; /* 3 columns for levels on mobile */
-        gap: 8px;
-        padding: 10px 0;
-    }
-
-    #filter-levels label {
-        padding: 5px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 4px;
-        justify-content: center;
+    /* Make the card text slightly smaller so it fits the narrow columns */
+    .spell-card h3 {
+        font-size: 0.9rem;
     }
 }
 
@@ -296,7 +308,7 @@ aside {
     .card-front { border-right: 2px dashed #999; } /* The fold line */
     .spell-card h3 { border-bottom-color: #999; }
     .spell-stats { color: #333; }
-    .spell-desc { overflow: hidden; } 
+    .spell-desc { overflow-x: hidden; } 
 }
 
 /* This targets the description area on both the front AND back of the cards */
