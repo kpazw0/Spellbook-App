@@ -202,56 +202,50 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- THE EMERGENCY MOBILE RESET --- */
+/* --- THE ULTIMATE MOBILE VIEW: ALL TABS --- */
 @media (max-width: 768px) {
-    /* 1. Force the vertical stack - This brings the cards back from the right side */
-    #view-browse, .view-section {
-        display: block !important; 
+    /* 1. Only show the ACTIVE section and force it to be a column */
+    .view-section.active {
+        display: flex !important;
+        flex-direction: column !important; 
         width: 100% !important;
         height: auto !important;
     }
 
-    /* 2. The Frozen Header */
-    aside#filters {
-        position: sticky !important;
-        top: 0;
-        z-index: 9999;
-        width: 100% !important;
-        background: #1a1a1d !important;
-        padding: 10px !important;
-        border-bottom: 2px solid #444 !important;
-        box-sizing: border-box !important;
+    /* 2. Strictly hide any section that is NOT active */
+    .view-section:not(.active) {
+        display: none !important;
     }
+
+    /* 3. Ensure the main container doesn't try to row-wrap */
+    main {
+        display: block !important; 
+        width: 100% !important;
+    }
+    
+    /* ... (The rest of your aside#filters and card-grid CSS stays the same) */
+}
 
     aside#filters h2 { display: none !important; }
 
-    /* 3. Dropdowns Side-by-Side */
+    /* 4. Filter Layout (Dropdowns side-by-side, Levels 5-across) */
     .filter-group {
         display: inline-block !important;
         width: 48% !important;
         margin-right: 1% !important;
     }
 
-    #filters label {
-        font-size: 0.6rem !important;
-        color: #888;
-        display: block;
-        margin-top: 5px;
-    }
-
     #filters select {
         width: 100% !important;
-        padding: 6px !important;
         font-size: 0.8rem !important;
+        padding: 6px !important;
     }
 
-    /* 4. The 5-Column Grid (This uses the blank space on the right) */
     #filter-levels {
         display: grid !important;
         grid-template-columns: repeat(5, 1fr) !important;
         gap: 4px !important;
         margin-top: 8px !important;
-        width: 100% !important;
     }
 
     #filter-levels label {
@@ -259,15 +253,15 @@ aside {
         font-size: 0.6rem !important;
         background: rgba(255, 255, 255, 0.05);
         padding: 5px 0 !important;
-        border-radius: 4px;
         text-align: center;
+        border-radius: 4px;
     }
 
-    /* 5. The Cards (2 per row, clearly visible below filters) */
-    .content-area {
+    /* 5. The Content Areas (Spells and Spellbook) */
+    .content-area, #spellbook-container {
         width: 100% !important;
         padding: 15px 5px !important;
-        display: block !important;
+        box-sizing: border-box !important;
     }
 
     .card-grid {
@@ -276,12 +270,6 @@ aside {
         gap: 10px !important;
         width: 100% !important;
     }
-
-    .spell-card {
-        width: 100% !important;
-        margin: 0 !important;
-    }
-}
 
 /* --- 8. Print Settings (Foldable Cards) --- */
 @media print {

@@ -20,11 +20,28 @@ document.getElementById('nav-browse').addEventListener('click', (e) => switchTab
 document.getElementById('nav-spellbook').addEventListener('click', (e) => switchTab(e, 'view-spellbook'));
 
 function switchTab(event, viewId) {
+    // 1. Remove active class from all buttons and sections
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     document.querySelectorAll('.view-section').forEach(view => view.classList.remove('active'));
-    
-    event.target.classList.add('active');
-    document.getElementById(viewId).classList.add('active');
+
+    // 2. Find the actual button (even if you clicked the text/icon inside it)
+    const clickedBtn = event.target.closest('.nav-btn');
+    if (clickedBtn) {
+        clickedBtn.classList.add('active');
+    }
+
+    // 3. Show the correct section
+    const activeView = document.getElementById(viewId);
+    if (activeView) {
+        activeView.classList.add('active');
+    }
+
+    // 4. THE FIX: Re-draw the content so it's fresh
+    if (viewId === 'view-spellbook') {
+        renderSpellbook(); // Populates your selected spells
+    } else {
+        renderLibrary();   // Refreshes the browse list
+    }
 }
 
 // 2. Load Spells
