@@ -46,8 +46,8 @@ body {
 /* --- 3. Layout Structure --- */
 main {
     display: flex;
-    flex-grow: 1;
-    overflow: hidden; 
+    min-height: 100vh;
+    width: 100%; 
 }
 
 .view-section {
@@ -202,25 +202,50 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
+/* --- Mobile Layout Overhaul --- */
 @media (max-width: 768px) {
-    /* Release the height so the page can scroll */
-    body, main, .content-area, #view-spellbook { 
-        height: auto !important; 
-        min-height: 100vh;
-        overflow-y: visible !important; 
-    }
-    
-    .view-section.active {
-        flex-direction: column;
+    /* 1. Stack the sidebar on top of the cards */
+    main {
+        flex-direction: column !important;
+        height: auto !important;
     }
 
-    #filters {
-        width: 100%;
-        padding: 20px;
-        max-height: 250px; /* Let the filters scroll inside if they get long */
-        overflow-y: auto;
+    /* 2. Make the sidebar full width and let it scroll if needed */
+    aside, #sidebar-filters {
+        width: 100% !important;
+        min-width: 100% !important;
+        height: auto !important;
         border-right: none;
-        border-bottom: 1px solid #444;
+        border-bottom: 2px solid var(--border-color);
+        padding: 15px;
+    }
+
+    /* 3. Make the Checkbox Grid 3 columns on mobile so it doesn't take up too much vertical space */
+    #filter-levels {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto;
+        grid-auto-flow: row; /* Switch back to row flow for 3 columns */
+        gap: 10px;
+    }
+
+    /* 4. Expand the card grid to fill the phone screen */
+    .content-area {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .card-grid {
+        display: grid;
+        /* This automatically fits 1 or 2 cards depending on phone size */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+        gap: 15px;
+        justify-items: center;
+    }
+
+    /* 5. Make buttons bigger and easier to tap with thumbs */
+    button, .add-btn, .remove-btn {
+        padding: 12px;
+        font-size: 1rem;
     }
 }
 
