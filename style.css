@@ -202,75 +202,85 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- Mobile Layout: 2-Column Force & Compact Filters --- */
+/* --- Final Polish Mobile View --- */
 @media (max-width: 768px) {
-    /* 1. Prevent the whole page from shaking side-to-side */
-    html, body {
-        overflow-x: hidden;
-        width: 100%;
-        position: relative;
-    }
-
+    /* 1. Force the vertical stack */
     main {
-        flex-direction: column !important;
-        width: 100% !important;
+        flex-direction: column !important; /* Puts filters on TOP of cards */
+        display: flex !important;
+        height: auto !important;
         overflow-x: hidden;
     }
 
-    /* 2. Shrink the Dropdowns (Class & School) */
+    /* 2. Narrower Dropdowns (Side-by-Side) */
     #filters {
         width: 100% !important;
+        min-width: 100% !important;
         padding: 15px !important;
         box-sizing: border-box;
+        border-right: none;
+        border-bottom: 2px solid var(--border-color);
     }
 
-    /* Put Class and School side-by-side to save height */
+    /* This targets the Class/School labels and selects */
+    #filters label {
+        font-size: 0.8rem;
+        margin-top: 10px;
+    }
+
+    /* We'll use a flex container for the selects to put them on one line */
     #filters select {
-        width: 48% !important; /* Half width */
+        width: 48% !important; /* Slimmer, side-by-side */
         display: inline-block;
-        margin-bottom: 10px;
+        margin-right: 2%;
         font-size: 0.85rem;
         padding: 8px;
     }
 
-    /* 3. Level Checkbox Grid (4 columns) */
+    /* 3. Level Checkbox Grid (4 Columns) */
     #filter-levels {
         display: grid !important;
         grid-template-columns: repeat(4, 1fr) !important;
-        gap: 6px;
+        gap: 8px;
+        margin-top: 15px;
         width: 100%;
     }
 
-    /* 4. THE FIX: The Grid and Card Width */
+    #filter-levels label {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 8px 0;
+        border-radius: 4px;
+        justify-content: center;
+        font-size: 0.75rem;
+    }
+
+    /* 4. THE FIX: Cards Below the Filters */
     .content-area {
         width: 100% !important;
         padding: 10px !important;
         box-sizing: border-box;
-        overflow-x: hidden;
     }
 
     .card-grid {
         display: grid !important;
-        /* Use minmax(0, 1fr) to prevent cards from expanding the grid */
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        /* Force 2 columns that STAY on screen */
+        grid-template-columns: 1fr 1fr !important; 
         gap: 10px !important;
         width: 100% !important;
-        margin: 0 auto !important;
+        margin: 0 !important;
     }
 
     .spell-card {
-        width: 100% !important; /* Force card to stay inside its grid cell */
-        max-width: 100% !important;
-        min-width: 0 !important; /* Crucial: allows card to shrink */
+        width: 100% !important;
+        min-width: 0 !important; /* Allows it to shrink to fit the column */
         margin: 0 !important;
-        /* Perspective can sometimes cause overflow, let's keep it safe */
-        perspective: 1000px; 
     }
 
-    /* Shrink text and buttons for the 2-column view */
-    .spell-card h3 { font-size: 0.85rem; }
-    .spell-card .stats { font-size: 0.7rem; }
-    .add-btn, .remove-btn { padding: 8px; font-size: 0.8rem; }
+    /* Adjust font size so titles don't wrap weirdly */
+    .spell-card h3 {
+        font-size: 0.85rem;
+        padding: 5px;
+    }
 }
 
 /* --- 8. Print Settings (Foldable Cards) --- */
