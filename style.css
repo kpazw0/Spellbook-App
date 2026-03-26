@@ -202,75 +202,83 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- THE NUCLEAR MOBILE OVERHAUL --- */
+/* --- MOBILE NAVIGATION & STICKY FILTERS --- */
 @media (max-width: 768px) {
-    /* 1. Force the page to stack vertically */
+    /* 1. Force everything into a single column */
     main {
         display: flex !important;
-        flex-direction: column !important; 
-        width: 100vw !important;
-        overflow-x: hidden !important;
+        flex-direction: column !important;
+        height: auto !important;
     }
 
-    /* 2. Slim Down the Sidebar & Dropdowns */
-    #filters {
+    /* 2. THE STICKY FILTER BAR */
+    aside#filters {
+        position: sticky !important;
+        top: 0;
+        z-index: 1000; /* Keeps it above the cards */
         width: 100% !important;
-        padding: 15px !important;
-        box-sizing: border-box;
-        border-right: none;
-        border-bottom: 2px solid #444;
+        min-width: 100% !important;
+        background: #1a1a1d !important; /* Use your dark background color here */
+        padding: 10px !important;
+        border-right: none !important;
+        border-bottom: 2px solid #444 !important;
+        box-sizing: border-box !important;
+        max-height: 40vh; /* Prevents filters from taking more than 40% of the screen */
+        overflow-y: auto; /* Just in case they get too long */
     }
 
-    /* Make Class/School dropdowns narrow and side-by-side */
+    /* Make the titles ("Class", "School") tiny to save space */
+    #filters label, #filters h2 {
+        font-size: 0.7rem !important;
+        margin: 5px 0 2px 0 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Put Select Boxes side-by-side to save height */
     #filters select {
-        width: 46% !important; /* Much narrower */
+        width: 48% !important;
         display: inline-block !important;
-        margin-right: 2%;
-        font-size: 0.8rem;
-        padding: 6px;
+        margin-bottom: 5px !important;
+        padding: 6px !important;
+        font-size: 0.8rem !important;
     }
 
-    /* 3. Level Grid (Compact 4-column) */
+    /* Compact 5-column Level Grid (0-4 and 5-9) */
     #filter-levels {
         display: grid !important;
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 6px;
-        margin-top: 10px;
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 4px !important;
+        margin-top: 5px !important;
     }
 
     #filter-levels label {
-        font-size: 0.7rem;
-        padding: 6px 0;
+        font-size: 0.65rem !important;
+        padding: 4px 0 !important;
         background: rgba(255, 255, 255, 0.05);
         border-radius: 4px;
-        justify-content: center;
     }
 
-    /* 4. THE FIX: Cards below filters, 2 per row */
+    /* 3. THE CARDS: Full width below the sticky bar */
     .content-area, .view-section {
         width: 100% !important;
         padding: 10px 5px !important;
-        box-sizing: border-box;
+        display: block !important;
     }
 
     .card-grid {
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important; /* Force 2 columns */
+        grid-template-columns: 1fr 1fr !important; /* 2 columns */
         gap: 8px !important;
         width: 100% !important;
         margin: 0 !important;
     }
 
-    /* Ensure cards shrink to fit the half-screen width */
     .spell-card {
         width: 100% !important;
         min-width: 0 !important;
         margin: 0 !important;
-        font-size: 0.75rem; /* Shorter text for smaller cards */
     }
-
-    .spell-card h3 { font-size: 0.85rem; }
-    .spell-card .stats { font-size: 0.65rem; }
 }
 
 /* --- 8. Print Settings (Foldable Cards) --- */
