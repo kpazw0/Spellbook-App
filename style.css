@@ -202,78 +202,71 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- THE ULTIMATE TOP-DOWN MOBILE VIEW --- */
+/* --- THE EMERGENCY MOBILE RESET --- */
 @media (max-width: 768px) {
-    /* 1. FORCE THE VERTICAL STACK */
-    main {
-        display: flex !important;
-        flex-direction: column !important; /* Forces cards BELOW filters */
-        height: auto !important;
+    /* 1. Force the vertical stack - This brings the cards back from the right side */
+    #view-browse, .view-section {
+        display: block !important; 
         width: 100% !important;
-        overflow-x: hidden !important;
+        height: auto !important;
     }
 
-    /* 2. THE FROZEN TOP BAR */
+    /* 2. The Frozen Header */
     aside#filters {
         position: sticky !important;
         top: 0;
-        z-index: 9999; /* Keeps it above the cards */
+        z-index: 9999;
         width: 100% !important;
-        min-width: 100% !important;
-        background: #1a1a1d !important; /* Your dark background */
+        background: #1a1a1d !important;
         padding: 10px !important;
-        border-right: none !important;
         border-bottom: 2px solid #444 !important;
         box-sizing: border-box !important;
     }
 
-    /* Hide the "Filters" title to save vertical space */
     aside#filters h2 { display: none !important; }
 
-    /* 3. COMPACT DROPDOWNS (Side-by-Side) */
-    /* Target the dropdown containers */
-    #filters select {
-        width: 48% !important;
+    /* 3. Dropdowns Side-by-Side */
+    .filter-group {
         display: inline-block !important;
-        margin-right: 2% !important;
-        margin-bottom: 8px !important;
-        padding: 6px !important;
-        font-size: 0.85rem !important;
+        width: 48% !important;
+        margin-right: 1% !important;
     }
 
-    /* Target the text labels above them */
     #filters label {
         font-size: 0.6rem !important;
-        text-transform: uppercase;
-        color: #aaa;
+        color: #888;
         display: block;
-        margin-bottom: 2px;
+        margin-top: 5px;
     }
 
-    /* 4. FLATTENED LEVEL GRID (5 columns) */
+    #filters select {
+        width: 100% !important;
+        padding: 6px !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* 4. The 5-Column Grid (This uses the blank space on the right) */
     #filter-levels {
         display: grid !important;
-        grid-template-columns: repeat(5, 1fr) !important; /* Uses the "Blank Space" on the right */
-        gap: 5px !important;
+        grid-template-columns: repeat(5, 1fr) !important;
+        gap: 4px !important;
+        margin-top: 8px !important;
         width: 100% !important;
-        margin-top: 5px !important;
     }
 
     #filter-levels label {
-        flex-direction: column !important; /* Checkbox over the number */
-        font-size: 0.65rem !important;
+        flex-direction: column !important;
+        font-size: 0.6rem !important;
         background: rgba(255, 255, 255, 0.05);
         padding: 5px 0 !important;
         border-radius: 4px;
         text-align: center;
     }
 
-    #filter-levels input { margin-bottom: 2px !important; }
-
-    /* 5. THE SPELLS (2 Columns at the bottom) */
+    /* 5. The Cards (2 per row, clearly visible below filters) */
     .content-area {
         width: 100% !important;
-        padding: 10px 5px !important;
+        padding: 15px 5px !important;
         display: block !important;
     }
 
@@ -286,7 +279,6 @@ aside {
 
     .spell-card {
         width: 100% !important;
-        min-width: 0 !important;
         margin: 0 !important;
     }
 }
