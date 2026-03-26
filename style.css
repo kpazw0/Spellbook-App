@@ -314,6 +314,16 @@ main {
     }
 }
 
+
+/* Force icons to use their own font, not Georgia */
+.nav-btn i, .nav-btn span, [class^="fa-"] {
+    font-family: "Font Awesome 6 Free", "Font Awesome 5 Free", "FontAwesome" !important;
+    font-style: normal !important;
+    display: inline-block !important;
+    vertical-align: middle;
+    margin-right: 8px; /* Adds space between icon and text */
+}
+
 /* --- 8. Print Settings (Foldable Cards) --- */
 @media print {
     .no-print { display: none !important; }
