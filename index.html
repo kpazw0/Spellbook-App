@@ -21,16 +21,23 @@
         <section id="view-browse" class="view-section active no-print">
             <aside id="filters">
                 <h2>Filters</h2>
+                    <div class="filter-group">
+                            <label>Class</label>
+                            <select id="filter-class">
+                                <option value="All" selected>All Classes</option>
+                                <option value="Artificer">Artificer</option>
+                                <option value="Barbarian">Barbarian</option>
+                                </select>
+                        </div>
 
-                <div class="filter-group">
-                    <label>Class</label>
-                    <select id="filter-class">...</select>
-                </div>
-
-                <div class="filter-group">
-                    <label>School</label>
-                    <select id="filter-school">...</select>
-                </div>
+                        <div class="filter-group">
+                            <label>School</label>
+                            <select id="filter-school">
+                                <option value="All" selected>All Schools</option>
+                                <option value="Abjuration">Abjuration</option>
+                                <option value="Conjuration">Conjuration</option>
+                                </select>
+                        </div>
 
                 <label>Spell Level</label>
                 <div id="filter-levels">

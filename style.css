@@ -202,90 +202,59 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- COMPACT MOBILE DASHBOARD --- */
 @media (max-width: 768px) {
-    /* 1. FORCE THE VERTICAL STACK */
-    main {
-        flex-direction: column !important;
-        display: flex !important;
-        height: auto !important;
-    }
-
-    /* 2. THE STICKY TOP BAR */
+    /* 1. The Container: Thin and Sticky */
     aside#filters {
         position: sticky !important;
         top: 0;
         z-index: 1000;
         width: 100% !important;
-        min-width: 100% !important;
-        background: #1a1a1d !important; /* Matches your dark theme */
-        padding: 10px 15px !important;
-        border-right: none !important;
-        border-bottom: 2px solid #444 !important;
+        background: #1a1a1d !important;
+        padding: 5px 12px !important; /* Tightest padding possible */
+        border-bottom: 1px solid #444 !important;
         box-sizing: border-box !important;
-        display: block !important;
     }
 
-    /* Hide the "Filters" title on mobile to save space if you want */
-    aside#filters h2 { display: none; }
+    aside#filters h2 { display: none; } /* Hide the big "Filters" text on mobile */
 
-    /* 3. Dropdowns Side-by-Side */
-    /* This targets the labels and selects for Class/School */
+    /* 2. The Side-by-Side Fix */
+    .filter-group {
+        display: inline-block !important; /* Forces them onto one line */
+        width: 48% !important;
+        margin-right: 2%;
+        vertical-align: top;
+    }
+
     #filters label {
-        font-size: 0.7rem !important;
-        margin: 5px 0 2px 0 !important;
-        display: block;
-        color: #aaa;
+        font-size: 0.6rem !important;
+        margin-bottom: 2px !important;
+        color: #888;
+        text-transform: uppercase;
     }
 
     #filters select {
-        width: 48% !important; /* Side by side */
-        display: inline-block !important;
-        margin-right: 2%;
+        width: 100% !important;
+        padding: 4px !important;
         font-size: 0.8rem !important;
-        padding: 6px !important;
+        background: #2a2a2d;
+        color: white;
+        border: 1px solid #444;
     }
 
-    /* 4. Flattened Level Grid: 5 Columns (0-4 and 5-9) */
+    /* 3. The 5-Column Level Grid (Uses the full width) */
     #filter-levels {
         display: grid !important;
-        grid-template-columns: repeat(5, 1fr) !important;
-        gap: 5px !important;
-        margin-top: 10px !important;
-        width: 100% !important;
+        grid-template-columns: repeat(5, 1fr) !important; 
+        gap: 4px !important;
+        margin: 5px 0 !important;
     }
 
     #filter-levels label {
-        flex-direction: column !important; /* Checkbox over the text */
+        flex-direction: column !important;
         font-size: 0.6rem !important;
         background: rgba(255, 255, 255, 0.05);
-        padding: 6px 0 !important;
+        padding: 4px 0 !important;
         border-radius: 4px;
-        justify-content: center;
-    }
-
-    #filter-levels input {
-        margin: 0 0 3px 0 !important;
-    }
-
-    /* 5. THE CARDS: 2 Columns appearing BELOW the filters */
-    .content-area, section.view-section {
-        width: 100% !important;
-        padding: 10px 5px !important;
-        display: block !important;
-    }
-
-    .card-grid {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
-        width: 100% !important;
-    }
-
-    .spell-card {
-        width: 100% !important;
-        min-width: 0 !important;
-        margin: 0 !important;
     }
 }
 
