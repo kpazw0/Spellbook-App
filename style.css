@@ -47,7 +47,7 @@ body {
 main {
     display: flex;
     min-height: 100vh;
-    width: 100%; 
+    height: auto; 
 }
 
 .view-section {
@@ -202,50 +202,55 @@ aside {
 .spell-desc::-webkit-scrollbar-thumb { background: #666; border-radius: 4px; }
 
 /* --- 7. Mobile Responsiveness --- */
-/* --- Mobile Layout Overhaul --- */
 @media (max-width: 768px) {
-    /* 1. Stack the sidebar on top of the cards */
+    /* Stack sidebar on top of the list */
     main {
         flex-direction: column !important;
         height: auto !important;
     }
 
-    /* 2. Make the sidebar full width and let it scroll if needed */
-    aside, #sidebar-filters {
+    /* Force the sidebar to show up at the top and be full width */
+    #filters { 
         width: 100% !important;
         min-width: 100% !important;
         height: auto !important;
         border-right: none;
         border-bottom: 2px solid var(--border-color);
         padding: 15px;
+        display: block !important; /* Ensures it doesn't stay hidden */
     }
 
-    /* 3. Make the Checkbox Grid 3 columns on mobile so it doesn't take up too much vertical space */
-    #filter-levels {
-        grid-template-columns: 1fr 1fr 1fr;
-        grid-template-rows: auto;
-        grid-auto-flow: row; /* Switch back to row flow for 3 columns */
-        gap: 10px;
-    }
-
-    /* 4. Expand the card grid to fill the phone screen */
-    .content-area {
-        padding: 10px;
-        width: 100%;
-    }
-
+    /* THE FIX: 2 cards per line */
     .card-grid {
         display: grid;
-        /* This automatically fits 1 or 2 cards depending on phone size */
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-        gap: 15px;
-        justify-items: center;
+        grid-template-columns: 1fr 1fr !important; /* Force two equal columns */
+        gap: 10px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    /* 5. Make buttons bigger and easier to tap with thumbs */
-    button, .add-btn, .remove-btn {
-        padding: 12px;
-        font-size: 1rem;
+    /* Shrink the cards slightly so they fit side-by-side comfortably */
+    .spell-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        font-size: 0.8rem; /* Slightly smaller text for better fit */
+    }
+
+    /* Make the checkboxes easier to hit with a thumb */
+    #filter-levels {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; /* 3 columns for levels on mobile */
+        gap: 8px;
+        padding: 10px 0;
+    }
+
+    #filter-levels label {
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        justify-content: center;
     }
 }
 
